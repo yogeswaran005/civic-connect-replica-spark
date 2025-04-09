@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="flex items-center gap-2">
               <Building2 className="h-6 w-6 text-primary" />
-              <span className="text-lg font-semibold text-gray-900">CivicConnect</span>
+              <span className="text-lg font-semibold text-gray-900">Municipal Corporation of India</span>
             </Link>
             <p className="mt-4 text-sm text-gray-600">
               Working together for a cleaner, safer community.
@@ -94,7 +94,7 @@ const Footer = () => {
         
         <div className="border-t border-gray-200 mt-8 pt-8">
           <p className="text-sm text-gray-600 text-center">
-            &copy; {new Date().getFullYear()} CivicConnect. All rights reserved.
+            &copy; {new Date().getFullYear()} Municipal Corporation of India. All rights reserved.
           </p>
         </div>
       </div>

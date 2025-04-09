@@ -14,7 +14,7 @@ const Header = () => {
           <div className="flex lg:flex-1">
             <Link to="/" className="-m-1.5 p-1.5 flex items-center gap-2">
               <Building2 className="h-8 w-8 text-primary" />
-              <span className="text-xl font-semibold text-gray-900">CivicConnect</span>
+              <span className="text-xl font-semibold text-gray-900">Municipal Corporation of India</span>
             </Link>
           </div>
           
