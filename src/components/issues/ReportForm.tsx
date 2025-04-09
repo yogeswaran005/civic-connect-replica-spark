@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
@@ -41,7 +40,7 @@ const ReportForm = () => {
   
   // Check if user is logged in
   const userLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
-  const userMobile = localStorage.getItem('userMobile');
+  const userEmail = localStorage.getItem('userEmail');
 
   // Redirect to login if not logged in
   const checkAuthentication = () => {
@@ -68,7 +67,7 @@ const ReportForm = () => {
       id: `ISSUE-${Math.floor(Math.random() * 10000)}`,
       status: 'reported',
       date: format(new Date(), 'yyyy-MM-dd'),
-      reportedBy: userMobile,
+      reportedBy: userEmail,
       imageUrl: image,
       videoUrl: video,
     };

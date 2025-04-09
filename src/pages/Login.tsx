@@ -10,10 +10,10 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useToast } from '@/components/ui/use-toast';
-import { Smartphone, Key } from 'lucide-react';
+import { Mail, Key } from 'lucide-react';
 
 const Login = () => {
-  const [mobileNumber, setMobileNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [otp, setOtp] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
   const [officialCode, setOfficialCode] = useState('');
@@ -38,10 +38,11 @@ const Login = () => {
   const handleSendOTP = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!mobileNumber || mobileNumber.length !== 10 || !/^\d+$/.test(mobileNumber)) {
+    // Validate email format
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       toast({
-        title: "Invalid mobile number",
-        description: "Please enter a valid 10-digit mobile number",
+        title: "Invalid email address",
+        description: "Please enter a valid email address",
         variant: "destructive",
       });
       return;
@@ -50,7 +51,7 @@ const Login = () => {
     // Simulate OTP sending
     toast({
       title: "OTP Sent",
-      description: `A verification code has been sent to ${mobileNumber}`,
+      description: `A verification code has been sent to ${email}`,
     });
     
     setIsVerifying(true);
@@ -76,7 +77,7 @@ const Login = () => {
     
     // Store user session info
     localStorage.setItem('userLoggedIn', 'true');
-    localStorage.setItem('userMobile', mobileNumber);
+    localStorage.setItem('userEmail', email);
     
     // Redirect to report page
     navigate('/report');
@@ -136,22 +137,22 @@ const Login = () => {
                   {!isVerifying ? (
                     <form onSubmit={handleSendOTP} className="space-y-4">
                       <div className="space-y-2">
-                        <Label htmlFor="mobile" className="text-sm font-medium">
-                          Mobile Number
+                        <Label htmlFor="email" className="text-sm font-medium">
+                          Email Address
                         </Label>
                         <div className="relative">
-                          <Smartphone className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
+                          <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                           <Input
-                            id="mobile"
-                            placeholder="Enter 10-digit mobile number"
+                            id="email"
+                            type="email"
+                            placeholder="Enter your email address"
                             className="pl-10"
-                            value={mobileNumber}
-                            onChange={(e) => setMobileNumber(e.target.value)}
-                            maxLength={10}
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
                         <p className="text-xs text-gray-500">
-                          We'll send you a one-time password
+                          We'll send you a one-time password to this email
                         </p>
                       </div>
                       
@@ -163,7 +164,7 @@ const Login = () => {
                     <form onSubmit={handleVerifyOTP} className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="otp" className="text-sm font-medium">
-                          Enter OTP sent to {mobileNumber}
+                          Enter OTP sent to {email}
                         </Label>
                         <div className="flex justify-center">
                           <InputOTP maxLength={6} value={otp} onChange={setOtp}>
