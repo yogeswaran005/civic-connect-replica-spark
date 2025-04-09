@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { useToast } from '@/components/ui/use-toast';
-import { Mail, Key } from 'lucide-react';
+import { Mail, Key, Info } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -18,8 +18,13 @@ const Login = () => {
   const [isVerifying, setIsVerifying] = useState(false);
   const [officialCode, setOfficialCode] = useState('');
   const [password, setPassword] = useState('');
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [verifyingOtp, setVerifyingOtp] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // For demo purposes, we'll use a fixed OTP
+  const demoOtp = "123456";
 
   // Valid municipal office credentials
   const validCredentials = [
@@ -48,13 +53,18 @@ const Login = () => {
       return;
     }
     
-    // Simulate OTP sending
-    toast({
-      title: "OTP Sent",
-      description: `A verification code has been sent to ${email}`,
-    });
+    setSendingOtp(true);
     
-    setIsVerifying(true);
+    // Simulate OTP sending with a delay for a more realistic experience
+    setTimeout(() => {
+      toast({
+        title: "OTP Sent",
+        description: `For demo purposes, use the code: ${demoOtp}`,
+      });
+      
+      setIsVerifying(true);
+      setSendingOtp(false);
+    }, 1500);
   };
 
   const handleVerifyOTP = (e: React.FormEvent) => {
@@ -69,18 +79,25 @@ const Login = () => {
       return;
     }
     
-    // Mock successful verification (in production, this would validate with a backend)
-    toast({
-      title: "Login Successful",
-      description: "Welcome to Municipal Corporation of India",
-    });
+    setVerifyingOtp(true);
     
-    // Store user session info
-    localStorage.setItem('userLoggedIn', 'true');
-    localStorage.setItem('userEmail', email);
-    
-    // Redirect to report page
-    navigate('/report');
+    // For demo purposes, we'll accept the fixed OTP or any 6-digit code
+    setTimeout(() => {
+      // Mock successful verification
+      toast({
+        title: "Login Successful",
+        description: "Welcome to Municipal Corporation of India",
+      });
+      
+      // Store user session info
+      localStorage.setItem('userLoggedIn', 'true');
+      localStorage.setItem('userEmail', email);
+      
+      setVerifyingOtp(false);
+      
+      // Redirect to report page
+      navigate('/report');
+    }, 1500);
   };
 
   const handleOfficialLogin = (e: React.FormEvent) => {
@@ -156,8 +173,26 @@ const Login = () => {
                         </p>
                       </div>
                       
-                      <Button type="submit" className="w-full">
-                        Send OTP
+                      <div className="bg-blue-50 p-3 rounded-md border border-blue-100 flex items-start gap-2 mb-2">
+                        <Info className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-xs text-blue-700">
+                          This is a demo application. No real emails are sent.
+                          When you click "Send OTP", a demo code will be provided for you to use.
+                        </p>
+                      </div>
+                      
+                      <Button type="submit" className="w-full" disabled={sendingOtp}>
+                        {sendingOtp ? (
+                          <>
+                            <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Sending OTP...
+                          </>
+                        ) : (
+                          "Send OTP"
+                        )}
                       </Button>
                     </form>
                   ) : (
@@ -178,20 +213,33 @@ const Login = () => {
                             </InputOTPGroup>
                           </InputOTP>
                         </div>
-                        <p className="text-xs text-gray-500 text-center">
-                          Didn't receive OTP?{" "}
-                          <Button 
-                            variant="link" 
-                            className="p-0 h-auto text-xs" 
-                            onClick={() => setIsVerifying(false)}
-                          >
-                            Resend
-                          </Button>
-                        </p>
+                        <div className="text-xs text-gray-500 text-center flex flex-col gap-2">
+                          <p>For demo purposes, use: <span className="font-bold">{demoOtp}</span></p>
+                          <p>
+                            Didn't receive OTP?{" "}
+                            <Button 
+                              variant="link" 
+                              className="p-0 h-auto text-xs" 
+                              onClick={() => setIsVerifying(false)}
+                            >
+                              Resend
+                            </Button>
+                          </p>
+                        </div>
                       </div>
                       
-                      <Button type="submit" className="w-full">
-                        Verify & Login
+                      <Button type="submit" className="w-full" disabled={verifyingOtp}>
+                        {verifyingOtp ? (
+                          <>
+                            <svg className="animate-spin -ml-1 mr-3 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Verifying...
+                          </>
+                        ) : (
+                          "Verify & Login"
+                        )}
                       </Button>
                     </form>
                   )}
