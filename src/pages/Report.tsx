@@ -1,0 +1,30 @@
+
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+import ReportForm from '@/components/issues/ReportForm';
+
+const Report = () => {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow bg-gray-50 py-12">
+        <div className="container">
+          <div className="max-w-3xl mx-auto">
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                Report an Issue
+              </h1>
+              <p className="mt-4 text-gray-600">
+                Use the form below to report an issue in your community. Be as detailed as possible to help us address it quickly.
+              </p>
+            </div>
+            <ReportForm />
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default Report;
